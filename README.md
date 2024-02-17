@@ -1,37 +1,31 @@
-# riscv-kernel
+[English](./README.en.md) | 简体中文
 
 #### 介绍
-It provides openEuler kernel source that support a variety of RISC-V SoCs.
+
+目前各个 RISC-V SoC 厂商维护的 kernel 版本并不一致，而 openEuler 系统要求每个版本统一内核。这导致基于各种开发板发布的各种操作系统版本都是内核不一致的第三方版本，增大了维护的难度并且带来了生态的分裂。riscv-kernel 目标是针对 RISC-V 架构在 openEuler 建立统一的 kernel 生态，共享欧拉生态建设与影响。该项目处于开发中，欢迎各方力量积极贡献。
 
 #### 软件架构
-软件架构说明
 
+riscv64
 
-#### 安装教程
+#### 项目意义
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+- 同源内核可提升用户在不同硬件平台的用户体验。
+- 加强硬件厂商、发行版方和开发者之间的合作，提高内核的兼容性和开发效率。
+- 降低各方的开发和维护成本，加快应用和生态系统的发展。
+- 促进 RISC-V 硬件平台的发展和推广，为 RISC-V 生态系统的全面发展奠定基础。
 
-#### 使用说明
+#### 说明
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+- 本仓库基于 [openeuler/kernel](https://gitee.com/openeuler/kernel) 的 OLK-6.6 分支建立，并持续同步更新。
+- 在未合入 OLK-6.6 之前，将以 patch 形式合入 [src-openeuler/kernel](https://gitee.com/src-openeuler/kernel) 并维护。
+- 欢迎提交不同 RISC-V SoC 的支持补丁，如果遇到代码冲突等问题，可提交 issues 并持续跟踪。
 
 #### 参与贡献
 
 1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
+2.  基于 OLK-6.6 新建开发分支
+3.  制定新增支持能力范围和计划
+4.  提交 SoC 支持
+5.  解决 PR 所产生的代码冲突
 
-
-#### 特技
-
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
