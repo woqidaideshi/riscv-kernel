@@ -20,6 +20,7 @@ riscv64
 - 本仓库基于 [openeuler/kernel](https://gitee.com/openeuler/kernel) 的 OLK-6.6 分支建立，并持续同步更新。
 - 在未合入 OLK-6.6 之前，将以 patch 形式合入 [src-openeuler/kernel](https://gitee.com/src-openeuler/kernel) 并维护。
 - 欢迎提交不同 RISC-V SoC 的支持补丁，如果遇到代码冲突等问题，可提交 issues 并持续跟踪。
+- 为方便补丁的维护和管理，本仓库提交的 PR 和补丁需符合[补丁合入规范](./Patch_spec.md)。
 
 #### 参与贡献
 

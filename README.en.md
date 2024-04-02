@@ -22,6 +22,7 @@ riscv64
 - This repository is based on the OLK-6.6 branch of [openEuler/kernel](https://gitee.com/openeuler/kernel) and is continuously updated synchronously.
 - Before merging into OLK-6.6, it will be merged into the [src-openeuler/kernel](https://gitee.com/src-openeuler/kernel) in patch form and maintained.
 - Welcome to submit support patches for different RISC-V SoCs. If you encounter code conflicts or other issues, you can submit issues and continue to track them.
+- For the convenience of patch maintenance and management, the PR and patches submitted by this repo MUST comply with the [Patch Merge Specification](./Patch_spec.md).
 
 #### Participate in contributions
 
