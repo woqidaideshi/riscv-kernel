@@ -1,0 +1,50 @@
+name: cross-compile build
+
+on:
+  pull_request:
+    paths-ignore:
+      - '.github/**'
+    branches: [ "OLK-6.6" ]
+  push:
+    paths-ignore:
+      - '.github/**'
+    branches: [ "OLK-6.6" ]
+  workflow_dispatch:
+
+env:
+  NUM_JOBS: 6
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Dependency
+        run: |
+          sudo apt update
+          sudo apt install make flex bison bc gcc-riscv64-linux-gnu libelf-dev -y
+          riscv64-linux-gnu-gcc -v
+        timeout-minutes: 5
+
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          clean: true
+
+      - name: Build
+        run: |
+          export CROSS_COMPILE=riscv64-linux-gnu-
+          make O=${{github.workspace}}/build ARCH=riscv openeuler_defconfig
+          make O=${{github.workspace}}/build ARCH=riscv -j$(nproc) Image modules dtbs
+          make O=${{github.workspace}}/build INSTALL_MOD_PATH=${{github.workspace}}/install modules_install
+          mkdir -p ${{github.workspace}}/install/boot/dtb/thead
+          cp ${{github.workspace}}/build/arch/riscv/boot/Image ${{github.workspace}}/install/boot/
+          find ${{github.workspace}}/build/arch/riscv/boot/dts/ -name *.dtb | xargs -i cp {} ${{github.workspace}}/install/boot/dtb/
+          cp ${{github.workspace}}/install/boot/dtb/thead*.dtb ${{github.workspace}}/install/boot/dtb/thead
+          tar -cvf riscv-cross-$(date +"%Y%m%d%H%M").tar -C ${{github.workspace}}/install .
+
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: riscv-kernel
+          path: riscv-cross-*.tar
+          retention-days: 90

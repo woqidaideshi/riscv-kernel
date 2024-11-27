@@ -1,0 +1,33 @@
+name: checkpatch review
+on:
+  pull_request:
+    paths-ignore:
+      - '.github/**'
+    branches: [ "OLK-6.6" ]
+  push:
+    paths-ignore:
+      - '.github/**'
+    branches: [ "OLK-6.6" ]
+  workflow_dispatch:
+
+jobs:
+  review:
+    name: checkpatch review
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Dependency
+        run: |
+          sudo apt update
+          sudo apt install make flex bison bc gcc-riscv64-linux-gnu git clang-format -y
+          riscv64-linux-gnu-gcc -v
+        timeout-minutes: 5
+      - name: 'Calculate PR commits + 1'
+        run: echo "PR_FETCH_DEPTH=$(( ${{ github.event.pull_request.commits }} + 1 ))" >> $GITHUB_ENV
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: ${{ env.PR_FETCH_DEPTH }}
+      - name: Copy checkpatch.conf
+        run: cp ${{github.workspace}}/.github/workflows/ci_checkpatch.conf ${{github.workspace}}/.checkpatch.conf
+      - name: Run checkpatch review
+        uses: webispy/checkpatch-action@v9

@@ -1,0 +1,44 @@
+name: kernel build
+on:
+  pull_request:
+    paths-ignore:
+      - '.github/**'
+    branches: [ "OLK-6.6" ]
+  push:
+    paths-ignore:
+      - '.github/**'
+    branches: [ "OLK-6.6" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: self-hosted
+    steps:
+      - name: Install Dependency
+        run: |
+          sudo dnf update
+          sudo dnf install -y gcc make ncurses-devel bison flex elfutils-libelf-devel openssl-devel bc git curl cpio xz bzip2 pcre-devel dwarves
+        timeout-minutes: 5
+
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          clean: true
+
+      - name: Build
+        run: |
+          make O=${{github.workspace}}/build ARCH=riscv openeuler_defconfig
+          make O=${{github.workspace}}/build ARCH=riscv -j$(nproc) Image modules dtbs
+          make O=${{github.workspace}}/build INSTALL_MOD_PATH=${{github.workspace}}/install modules_install
+          mkdir -p ${{github.workspace}}/install/boot/dtb/thead
+          cp ${{github.workspace}}/build/arch/riscv/boot/Image ${{github.workspace}}/install/boot/
+          find ${{github.workspace}}/build/arch/riscv/boot/dts/ -name *.dtb | xargs -i cp {} ${{github.workspace}}/install/boot/dtb/
+          cp ${{github.workspace}}/install/boot/dtb/thead*.dtb ${{github.workspace}}/install/boot/dtb/thead
+          tar -cvf riscv-$(date +"%Y%m%d%H%M").tar -C ${{github.workspace}}/install .
+
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: riscv-kernel
+          path: riscv-*.tar
+          retention-days: 90

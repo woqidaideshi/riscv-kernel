@@ -1,0 +1,5 @@
+steps:
+  - label: "build kernel"
+    command: bash .buildkite/scripts/kernel-build.sh
+    agents:
+      queue: "default"
