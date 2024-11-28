@@ -1,0 +1,15 @@
+steps:
+  - label: "build kernel"
+    command: bash .buildkite/scripts/kernel-build.sh
+    plugins:
+      - docker#v5.12.0:
+          image: "woqidaideshi/oerv-kernel-test:1.1"
+          workdir: /upstream
+          user: root
+          propagate-environment: true
+          network: host
+          ipc: host
+          shm-size: 50gb
+          always-pull: true
+    agents:
+      queue: "default"
