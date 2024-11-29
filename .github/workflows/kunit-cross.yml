@@ -1,0 +1,37 @@
+name: kunit test
+
+on:
+  pull_request:
+    paths-ignore:
+      - '.github/**'
+    branches: [ "OLK-6.6" ]
+  push:
+    paths-ignore:
+      - '.github/**'
+    branches: [ "OLK-6.6" ]
+  workflow_dispatch:
+
+env:
+  NUM_JOBS: 6
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Dependency
+        run: |
+          sudo apt update
+          sudo apt install make gcc-riscv64-linux-gnu flex bison bc qemu-system-misc -y
+        timeout-minutes: 5
+
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          clean: true
+
+      - name: kunit
+        run: |
+          export CROSS_COMPILE=riscv64-linux-gnu-
+          make mrproper -j$(nproc)
+          echo "# CONFIG_RISCV_ISA_ZICBOM is not set" >> tools/testing/kunit/configs/default.config
+          ./tools/testing/kunit/kunit.py run --arch=riscv
