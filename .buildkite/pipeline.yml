@@ -3,7 +3,7 @@ steps:
     command: bash .buildkite/scripts/kernel-build.sh
     plugins:
       - docker#v5.12.0:
-          image: "woqidaideshi/oerv-kernel-test:1.1"
+          image: "woqidaideshi/oerv-kernel-test:1.3"
           workdir: /upstream
           user: root
           propagate-environment: true

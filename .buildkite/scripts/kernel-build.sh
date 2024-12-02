@@ -1,4 +1,6 @@
 #!/bin/bash
+
+######## compile kernel
 make mrproper -j$(nproc)
 make O=./build ARCH=riscv openeuler_defconfig
 make O=./build ARCH=riscv -j$(nproc) Image modules dtbs
@@ -8,3 +10,12 @@ cp ./build/arch/riscv/boot/Image ./install/boot/
 find ./build/arch/riscv/boot/dts/ -name *.dtb | xargs -i cp {} ./install/boot/dtb/
 cp ./install/boot/dtb/th*.dtb ./install/boot/dtb/thead
 tar -cvf riscv-$(date +"%Y%m%d%H%M").tar -C ./install .
+
+
+######## kselftests
+make distclean
+make O=./kselftest openeuler_defconfig
+make O=./kselftest headers -j$(nproc)
+make O=./kselftest -C tools/testing/selftests SKIP_TARGETS="hid bpf" -j$(nproc)
+make O=./kselftest SKIP_TARGETS="hid bpf" kselftest -j$(nproc)
+
