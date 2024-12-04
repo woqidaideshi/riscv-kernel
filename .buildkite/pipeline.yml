@@ -5,7 +5,7 @@ steps:
       SCHEDULE=$SCHEDULE
     plugins:
       - docker#v5.12.0:
-          image: "woqidaideshi/oerv-kernel-test:1.5"
+          image: "woqidaideshi/oerv-kernel-test:1.6"
           workdir: /home/yafen/upstream
           user: yafen
           propagate-environment: true
@@ -14,7 +14,7 @@ steps:
           shm-size: 50gb
           privileged: true
           volumes:
-            - "/home/yafen/kernel-test:/home/yafen/kernel-test"
+            - "/opt/smatch:/opt/smatch"
           always-pull: true
     agents:
       queue: "default"
