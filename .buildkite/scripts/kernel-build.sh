@@ -1,7 +1,6 @@
 #!/bin/bash
 
-echo ==============SCHEDULE: $SCHEDULE
-echo ============$(pwd)
+echo ==================IS SCHEDULE: $SCHEDULE
 
 ######## compile kernel
 # echo ==================compile kernel
@@ -25,13 +24,14 @@ echo ============$(pwd)
 
 ####### smatch
 echo ==================smatch
-make distclean
+
 SMATCH_PATH=/opt/smatch
-$SMATCH_PATH/smatch_scripts/build_kernel_data.sh
+make distclean
 
 if [ "x$SCHEDULE" == "x1" ]; then
-    ####### smatch
+    echo ----------smatch_scripts/build_kernel_data.sh
+    $SMATCH_PATH/smatch_scripts/build_kernel_data.sh
+else
     echo ----------smatch_scripts/test_kernel.sh
-    make distclean
     $SMATCH_PATH/smatch_scripts/test_kernel.sh
 fi

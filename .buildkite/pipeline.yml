@@ -18,3 +18,9 @@ steps:
           always-pull: true
     agents:
       queue: "default"
+  # - label: "ltp"
+  #   command: bash .buildkite/scripts/ltp-test.sh
+  #   env:
+  #     SCHEDULE=$SCHEDULE
+  #   agents:
+  #     queue: "licheepi4a"
