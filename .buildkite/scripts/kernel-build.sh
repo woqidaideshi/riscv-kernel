@@ -20,7 +20,7 @@ echo ==================IS SCHEDULE: $SCHEDULE
 # make O=./kselftest openeuler_defconfig
 # make O=./kselftest headers -j$(nproc)
 # make O=./kselftest -C tools/testing/selftests SKIP_TARGETS="hid bpf" -j$(nproc)
-# make O=./kselftest SKIP_TARGETS="hid bpf" kselftest -j$(nproc)
+# make O=./kselftest -C tools/testing/selftests SKIP_TARGETS="hid bpf" run_tests -j$(nproc)
 
 ####### smatch
 echo ==================smatch
