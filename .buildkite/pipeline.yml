@@ -1,0 +1,26 @@
+steps:
+  - label: "build kernel"
+    command: bash .buildkite/scripts/kernel-build.sh
+    env:
+      SCHEDULE=$SCHEDULE
+    plugins:
+      - docker#v5.12.0:
+          image: "woqidaideshi/oerv-kernel-test:1.6"
+          workdir: /home/yafen/upstream
+          user: yafen
+          propagate-environment: true
+          network: host
+          ipc: host
+          shm-size: 50gb
+          privileged: true
+          volumes:
+            - "/opt/smatch:/opt/smatch"
+          always-pull: true
+    agents:
+      queue: "default"
+  # - label: "ltp"
+  #   command: bash .buildkite/scripts/ltp-test.sh
+  #   env:
+  #     SCHEDULE=$SCHEDULE
+  #   agents:
+  #     queue: "licheepi4a"
